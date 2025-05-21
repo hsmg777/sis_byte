@@ -11,8 +11,8 @@ services:
     env_file:
       - ./backend_byte/.env
     environment:
-      - FLASK_APP=app.py
-      - FLASK_ENV=development
+      - FLASK_APP=app:create_app
+      - FLASK_DEBUG=1
     depends_on:
       - db
 
@@ -29,6 +29,17 @@ services:
       MYSQL_PASSWORD: hsmg777
     volumes:
       - db_data:/var/lib/mysql
+
+  frontend:
+    build: ./frontend_byte
+    container_name: react_frontend
+    ports:
+      - "5173:5173"
+    working_dir: /app
+    volumes:
+      - ./frontend_byte:/app
+      - /app/node_modules
+    command: npm run dev -- --host 0.0.0.0
 
 volumes:
   db_data:
