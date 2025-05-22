@@ -17,7 +17,7 @@ export default function Login() {
     try {
       // Enviamos directamente el objeto literal, sin tipo extra
       await login({ email, contraseña });
-      navigate("/dashboard");
+      navigate("/homepage");
     } catch (err: any) {
       setError(err.response?.data?.mensaje || err.message);
     }

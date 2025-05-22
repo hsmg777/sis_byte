@@ -1,117 +1,66 @@
 // src/layout/MainLayout.tsx
-import { useState } from "react";
 import type { ReactNode } from "react";
-import { Link, Outlet } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { Link, Outlet }    from "react-router-dom";
+import { useAuth }         from "../contexts/AuthContext";
 import {
-  HomeIcon,
-  UsersIcon,
-  ClipboardIcon,     // en lugar de ClipboardListIcon
-  BanknotesIcon,     // en lugar de CashIcon
-  ShoppingCartIcon,
-  CalendarIcon,
-  FolderIcon,
-  ChartBarIcon,
+  HomeIcon, UsersIcon, BanknotesIcon,
+  ShoppingCartIcon, CalendarIcon,
+  FolderIcon, ChartBarIcon, Squares2X2Icon
 } from "@heroicons/react/24/outline";
 
-
-
-interface Props {
-  children?: ReactNode;
+interface MenuItem {
+  to: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  roles?: string[];      // roles permitted (si no existe, cualquiera autenticado)
 }
 
-export default function MainLayout({ children }: Props) {
-  const { logout } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+export default function MainLayout({ children }: { children?: ReactNode }) {
+  const { user, logout } = useAuth();
 
-  const menu = [
-  { to: "/dashboard",                label: "Dashboard",      icon: HomeIcon },
-  { to: "/dashboard/presupuestos",   label: "Presupuestos",   icon: ClipboardIcon },
-  { to: "/dashboard/ingresos",       label: "Ingresos",       icon: BanknotesIcon },
-  { to: "/dashboard/ventas",         label: "Ventas",         icon: ShoppingCartIcon },
-  { to: "/dashboard/gastos",         label: "Gastos",         icon: FolderIcon },
-  { to: "/dashboard/clientes",       label: "Clientes",       icon: UsersIcon },
-  { to: "/dashboard/usuarios",       label: "Usuarios",       icon: UsersIcon },
-  { to: "/dashboard/pendientes",     label: "Pendientes",     icon: ChartBarIcon },
-];
+  const menu: MenuItem[] = [
+    { to: "/homepage",                label: "Home",         icon: HomeIcon},
+    { to: "/homepage/dashboard",      label: "Dashboard",    icon: Squares2X2Icon, roles:["administrador"]},
+    { to: "/homepage/presupuestos",   label: "Presupuestos", icon: ChartBarIcon },
+    { to: "/homepage/ingresos",       label: "Ingresos",     icon: BanknotesIcon },
+    { to: "/homepage/ventas",         label: "Ventas",       icon: ShoppingCartIcon },
+    { to: "/homepage/gastos",         label: "Gastos",       icon: FolderIcon },
+    { to: "/homepage/clientes",       label: "Clientes",     icon: UsersIcon, roles: ["administrador"] },
+    { to: "/homepage/usuarios",       label: "Usuarios",     icon: UsersIcon, roles: ["administrador"] },
+    { to: "/homepage/pendientes",     label: "Pendientes",   icon: CalendarIcon },
+  ];
 
+  // Filtrar solo los menús permitidos al rol actual
+  const filtered = menu.filter(item =>
+    !item.roles || item.roles.includes(user!.rol)
+  );
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      {/* Sidebar móvil */}
-      <div
-        className={`fixed inset-0 z-30 transition-opacity bg-black bg-opacity-50 ${
-          sidebarOpen ? "opacity-100 visible" : "opacity-0 invisible"
-        } md:hidden`}
-        onClick={() => setSidebarOpen(false)}
-      />
-
-      {/* Sidebar */}
-      <aside
-        className={`fixed left-0 top-0 bottom-0 z-40 w-64 bg-purple-700 text-white transform transition-transform duration-200 ease-in-out
-          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-          md:relative md:translate-x-0
-        `}
-      >
-        <div className="h-16 flex items-center px-6">
-          <span className="text-2xl font-bold">Byte App</span>
-        </div>
-        <nav className="mt-6">
-          {menu.map(({ to, label, icon: Icon }) => (
+    <div className="flex h-screen">
+      {/* sidebar simplify... */}
+      <aside className="w-64 bg-purple-700 text-white">
+        <div className="h-16 flex items-center px-6">Byte App</div>
+        <nav>
+          {filtered.map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
               to={to}
-              className="flex items-center px-6 py-3 hover:bg-purple-600 transition-colors"
-              onClick={() => setSidebarOpen(false)}
+              className="flex items-center px-6 py-3 hover:bg-purple-600"
             >
               <Icon className="w-5 h-5 mr-3" />
-              <span className="font-medium">{label}</span>
+              <span>{label}</span>
             </Link>
           ))}
         </nav>
       </aside>
 
-      {/* Contenido principal */}
       <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <header className="h-16 bg-purple-900 border-b border-gray-200 flex items-center px-4 md:px-6">
-          {/* botón hamburguesa en móvil */}
-          <button
-            className="md:hidden p-2 rounded hover:bg-gray-300"
-            onClick={() => setSidebarOpen(o => !o)}
-          >
-            {sidebarOpen ? (
-              <svg
-                className="w-6 h-6 text-gray-100"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg
-                className="w-6 h-6 text-gray-100"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
-
-          <div className="flex-1" />
-
-          <button
-            onClick={logout}
-            className="text-gray-100 hover:text-gray-900 underline"
-          >
+        {/* header... */}
+        <header className="h-16 bg-purple-900 flex items-center px-6 justify-end">
+          <button onClick={logout} className="text-white underline">
             Salir
           </button>
         </header>
-
-        {/* Main */}
         <main className="flex-1 overflow-auto bg-gray-50 p-6">
           {children ?? <Outlet />}
         </main>

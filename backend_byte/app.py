@@ -12,6 +12,8 @@ from resources.dashboard import blp as DashboardBlueprint
 from resources.auth import blp as AuthBlueprint
 from resources.users import blp as UsersBlueprint
 from resources.clientes import blp as ClientesBlueprint
+from resources.presupuesto import blp as PresupuestoBlueprint
+
 
 
 load_dotenv()
@@ -67,6 +69,7 @@ def create_app():
     api.register_blueprint(DashboardBlueprint, url_prefix='/api')
     api.register_blueprint(UsersBlueprint) 
     api.register_blueprint(ClientesBlueprint, url_prefix='/api/clientes')
+    api.register_blueprint(PresupuestoBlueprint)
 
     return app
 
