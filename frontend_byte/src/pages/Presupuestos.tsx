@@ -47,7 +47,7 @@ export default function Presupuestos() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
         <h1 className="text-2xl font-semibold mb-2 sm:mb-0">Presupuestos</h1>
         <button
-          onClick={() => navigate("/dashboard/presupuestos/nuevo")}
+          onClick={() => navigate("/homepage/presupuestos/nuevo")}
           className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
         >
           + Nuevo Ítem
@@ -74,13 +74,13 @@ export default function Presupuestos() {
                 <td className="px-3 py-2">{item.total}</td>
                 <td className="px-3 py-2 space-x-2">
                   <button
-                    onClick={() => navigate(`/dashboard/presupuestos/${item.id_item}/subitems`)}
+                    onClick={() => navigate(`/homepage/presupuestos/${item.id_item}/subitems`)}
                     className="text-blue-600 hover:text-blue-800"
                   >
                     📋
                   </button>
                   <button
-                    onClick={() => navigate(`/dashboard/presupuestos/${item.id_item}`)}
+                    onClick={() => navigate(`/homepage/presupuestos/${item.id_item}`)}
                     className="text-purple-600 hover:text-purple-800"
                   >
                     ✏️

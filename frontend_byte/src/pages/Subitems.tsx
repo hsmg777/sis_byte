@@ -56,13 +56,13 @@ export default function Subitems() {
         </h1>
         <div className="space-x-2">
           <Link
-            to={`/dashboard/presupuestos/${itemId}/subitems/nuevo`}
+            to={`/homepage/presupuestos/${itemId}/subitems/nuevo`}
             className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
           >
             + Nuevo Subítem
           </Link>
           <Link
-            to={`/dashboard/presupuestos`}
+            to={`/homepage/presupuestos`}
            className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded"
           >
              ← Volver
@@ -97,7 +97,7 @@ export default function Subitems() {
                 <td className="px-3 py-2">{s.precio_unitario}</td>
                 <td className="px-3 py-2 space-x-2">
                   <Link
-                    to={`/dashboard/presupuestos/${itemId}/subitems/${s.id_subitem}`}
+                    to={`/homepage/presupuestos/${itemId}/subitems/${s.id_subitem}`}
                     className="text-blue-600 hover:text-blue-800"
                     aria-label="Editar"
                   >

@@ -71,7 +71,7 @@ export default function Users() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-2 sm:space-y-0">
         <h1 className="text-2xl font-semibold">Usuarios</h1>
         <Link
-            to="/dashboard/usuarios/nuevo"
+            to="/homepage/usuarios/nuevo"
             className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-center"
         >
             + Nuevo
@@ -135,7 +135,7 @@ export default function Users() {
                 <td className="px-3 py-2 text-sm border-b break-words">{u.email}</td>
                 <td className="px-3 py-2 text-sm border-b">{u.rol}</td>
                 <td className="px-3 py-2 text-sm border-b space-x-2">
-                  <Link to={`/dashboard/usuarios/${u.id_usuario}`} className="text-blue-600 hover:text-blue-800">
+                  <Link to={`/homepage/usuarios/${u.id_usuario}`} className="text-blue-600 hover:text-blue-800">
                     ✏️
                   </Link>
                   <button
@@ -169,7 +169,7 @@ export default function Users() {
               <p><strong>Rol:</strong> {u.rol}</p>
               <div className="pt-2 flex space-x-4">
                 <Link
-                  to={`/dashboard/usuarios/${u.id_usuario}`}
+                  to={`/homepage/usuarios/${u.id_usuario}`}
                   className="text-blue-600 hover:underline"
                 >
                   ✏️ Editar

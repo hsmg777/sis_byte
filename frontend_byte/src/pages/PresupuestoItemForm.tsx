@@ -41,7 +41,7 @@ export default function PresupuestoItemForm() {
         await createItem({ nombre });
         await Swal.fire("¡Listo!", "Ítem creado correctamente.", "success");
       }
-      navigate("/dashboard/presupuestos");
+      navigate("/homepage/presupuestos");
     } catch (err: any) {
       const msg = err.response?.data?.mensaje || "Error al guardar el ítem";
       setError(msg);
@@ -78,7 +78,7 @@ export default function PresupuestoItemForm() {
 
         <button
           type="button"
-          onClick={() => navigate("/dashboard/presupuestos")}
+          onClick={() => navigate("/homepage/presupuestos")}
           className="w-full bg-gray-300 text-gray-800 py-2 rounded hover:bg-gray-400 transition"
         >
           Regresar

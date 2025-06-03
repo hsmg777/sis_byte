@@ -68,7 +68,7 @@ export default function SubitemForm() {
         await createSubitem(+itemId!, payload);
         await Swal.fire("¡Hecho!", "Subítem creado correctamente.", "success");
       }
-      navigate(`/dashboard/presupuestos/${itemId}/subitems`);
+      navigate(`/homepage/presupuestos/${itemId}/subitems`);
     } catch (err: any) {
       const msg = err.response?.data?.mensaje || "Error al guardar subítem";
       setError(msg);
@@ -140,7 +140,7 @@ export default function SubitemForm() {
 
         <button
           type="button"
-          onClick={() => navigate(`/dashboard/presupuestos/${itemId}/subitems`)}
+          onClick={() => navigate(`/homepage/presupuestos/${itemId}/subitems`)}
           className="w-full bg-gray-300 text-gray-800 py-2 rounded hover:bg-gray-400 transition"
         >
           Regresar

@@ -15,10 +15,14 @@ import Presupuestos           from "../pages/Presupuestos";
 import PresupuestoItemForm    from "../pages/PresupuestoItemForm";
 import Subitems               from "../pages/Subitems";
 import SubitemForm            from "../pages/SubitemForm";
+import Stock                  from "../pages/Stock";
+import StockForm              from "../pages/StockForm";
 import { AuthenticatedRoute } from "../components/AuthenticatedRoute";
 import { AdminRoute }         from "../components/AdminRoute";
 import { SalesRoute }         from "../components/SalesRoute";
-
+import { CosechaRoute }       from "../components/CosechaRoute";
+import IngresoForm            from "../pages/IngresoForm";
+import IngresoList            from "../pages/IngresoList";
 
 
 export default function AppRouter() {
@@ -26,48 +30,66 @@ export default function AppRouter() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+          {/* Públicas */}
           <Route path="/" element={<Login />} />
 
-          {/* Cualquier autenticado */}
-          <Route path="homepage" element={<AuthenticatedRoute />}>
+          {/* Cualquier usuario autenticado */}
+          <Route path="/homepage" element={<AuthenticatedRoute />}>
             <Route element={<MainLayout />}>
-              <Route index element={<HomePage/>} />
+              <Route index element={<HomePage />} />
 
-              {/* Solo admin */}
+              {/* Dashboard (solo admin) */}
               <Route element={<AdminRoute />}>
                 <Route path="dashboard" element={<Dashboard />} />
-                <Route path="usuarios" element={<Users />} />
-                <Route path="usuarios/nuevo" element={<UserForm />} />
+              </Route>
+
+              {/* Usuarios (solo admin) */}
+              <Route element={<AdminRoute />}>
+                <Route path="usuarios"         element={<Users />} />
+                <Route path="usuarios/nuevo"   element={<UserForm />} />
                 <Route path="usuarios/:userId" element={<UserForm />} />
+              </Route>
+
+              {/* Clientes */}
+              <Route path="clientes" element={<Clients />} />
+              <Route path="clientes/:clientId" element={<ClientForm />} />
+              <Route element={<AdminRoute />}>
                 <Route path="clientes/nuevo" element={<ClientForm />} />
               </Route>
 
-              {/* Clientes: listar y detalle para cualquiera autenticado */}
-              <Route path="clientes" element={<Clients />} />
-              <Route path="clientes/:clientId" element={<ClientForm />} />
-
-              {/* Presupuestos: listar cualquiera */}
+              {/* Presupuestos */}
               <Route path="presupuestos" element={<Presupuestos />} />
-
-              {/* Crear/editar ítem: solo ventas y admin */}
               <Route element={<SalesRoute />}>
-                <Route path="presupuestos/nuevo" element={<PresupuestoItemForm />} />
+                <Route path="presupuestos/nuevo"   element={<PresupuestoItemForm />} />
                 <Route path="presupuestos/:itemId" element={<PresupuestoItemForm />} />
               </Route>
-
-              {/* Subitems: listado cualquiera */}
               <Route path="presupuestos/:itemId/subitems" element={<Subitems />} />
-
-              {/* Crear/editar subitem: solo ventas y admin */}
               <Route element={<SalesRoute />}>
-                <Route path="presupuestos/:itemId/subitems/nuevo" element={<SubitemForm />} />
-                <Route path="presupuestos/:itemId/subitems/:subId" element={<SubitemForm />} />
+                <Route
+                  path="presupuestos/:itemId/subitems/nuevo"
+                  element={<SubitemForm />}
+                />
+                <Route
+                  path="presupuestos/:itemId/subitems/:subId"
+                  element={<SubitemForm />}
+                />
               </Route>
+
+              {/* Stock / Cosecha */}
+              <Route path="stock" element={<Stock />} />
+              <Route element={<CosechaRoute />}>
+                <Route path="stock/nuevo"        element={<StockForm />} />
+                <Route path="stock/:stockId"     element={<StockForm />} />
+                <Route path="stock/:stockId/ingresos" element={<IngresoList />} />
+                <Route path="stock/:stockId/ingresos/nuevo" element={<IngresoForm />} />
+              </Route>
+
             </Route>
           </Route>
 
+          {/* No autorizado y 404 */}
           <Route path="/not-authorized" element={<NotAuthorized />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="*"               element={<NotFound />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

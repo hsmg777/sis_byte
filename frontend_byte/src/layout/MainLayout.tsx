@@ -21,13 +21,13 @@ export default function MainLayout({ children }: { children?: ReactNode }) {
   const menu: MenuItem[] = [
     { to: "/homepage",                label: "Home",         icon: HomeIcon},
     { to: "/homepage/dashboard",      label: "Dashboard",    icon: Squares2X2Icon, roles:["administrador"]},
-    { to: "/homepage/presupuestos",   label: "Presupuestos", icon: ChartBarIcon },
+    { to: "/homepage/presupuestos",   label: "Presupuestos", icon: ChartBarIcon, roles:["administrador", "contable"]},
     { to: "/homepage/ingresos",       label: "Ingresos",     icon: BanknotesIcon },
     { to: "/homepage/ventas",         label: "Ventas",       icon: ShoppingCartIcon },
     { to: "/homepage/gastos",         label: "Gastos",       icon: FolderIcon },
     { to: "/homepage/clientes",       label: "Clientes",     icon: UsersIcon, roles: ["administrador"] },
     { to: "/homepage/usuarios",       label: "Usuarios",     icon: UsersIcon, roles: ["administrador"] },
-    { to: "/homepage/pendientes",     label: "Pendientes",   icon: CalendarIcon },
+    { to: "/homepage/stock",          label: "Registrar Stock",   icon: CalendarIcon, roles: ["administrador", "cosecha"] },
   ];
 
   // Filtrar solo los menús permitidos al rol actual

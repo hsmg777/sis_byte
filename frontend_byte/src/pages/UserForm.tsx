@@ -51,7 +51,7 @@ export default function UserForm() {
         await register(payload);
         await Swal.fire("¡Hecho!", "Usuario creado correctamente.", "success");
       }
-      navigate("/dashboard/usuarios");
+      navigate("/homepage/usuarios");
     } catch (err: any) {
       const msg = err.response?.data?.mensaje || "Error al guardar usuario";
       setError(msg);
@@ -125,7 +125,7 @@ export default function UserForm() {
         </button>
         <button
             type="button"
-            onClick={() => navigate("/dashboard/usuarios")}
+            onClick={() => navigate("/homepage/usuarios")}
             className="w-full bg-gray-300 text-gray-800 py-2 rounded hover:bg-gray-700 transition"
           >
             Regresar

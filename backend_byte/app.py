@@ -13,6 +13,9 @@ from resources.auth import blp as AuthBlueprint
 from resources.users import blp as UsersBlueprint
 from resources.clientes import blp as ClientesBlueprint
 from resources.presupuesto import blp as PresupuestoBlueprint
+from resources.stock import blp as StockBlueprint
+from resources.ingreso_stock import blp as IngresoStockBluePrint
+
 
 
 
@@ -70,6 +73,11 @@ def create_app():
     api.register_blueprint(UsersBlueprint) 
     api.register_blueprint(ClientesBlueprint, url_prefix='/api/clientes')
     api.register_blueprint(PresupuestoBlueprint)
+    api.register_blueprint(StockBlueprint)
+    api.register_blueprint(IngresoStockBluePrint)
+
+    
+
 
     return app
 
