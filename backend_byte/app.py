@@ -15,6 +15,7 @@ from resources.clientes import blp as ClientesBlueprint
 from resources.presupuesto import blp as PresupuestoBlueprint
 from resources.stock import blp as StockBlueprint
 from resources.ingreso_stock import blp as IngresoStockBluePrint
+from resources.ventas import blp as VentasBluePrint
 
 
 
@@ -75,8 +76,9 @@ def create_app():
     api.register_blueprint(PresupuestoBlueprint)
     api.register_blueprint(StockBlueprint)
     api.register_blueprint(IngresoStockBluePrint)
+    api.register_blueprint(VentasBluePrint)
 
-    
+
 
 
     return app

@@ -56,7 +56,7 @@ export default function Clients() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
           <h1 className="text-2xl font-semibold mb-2 sm:mb-0">Clientes</h1>
           <Link
-            to="/dashboard/clientes/nuevo"
+            to="/homepage/clientes/nuevo"
             className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
           >
             + Nuevo

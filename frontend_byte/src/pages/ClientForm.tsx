@@ -45,7 +45,7 @@ export default function ClientForm() {
         await createClient({ nombre, email, telefono, direccion });
         await Swal.fire("¡Hecho!", "Cliente creado correctamente.", "success");
       }
-      navigate("/dashboard/clientes");
+      navigate("/homepage/clientes");
     } catch (err: any) {
       const msg = err.response?.data?.mensaje || "Error al guardar cliente";
       setError(msg);
@@ -112,7 +112,7 @@ export default function ClientForm() {
 
         <button
           type="button"
-          onClick={() => navigate("/dashboard/clientes")}
+          onClick={() => navigate("/homepage/clientes")}
           className="w-full bg-gray-300 text-gray-800 py-2 rounded hover:bg-gray-400 transition"
         >
           Regresar

@@ -23,6 +23,9 @@ import { SalesRoute }         from "../components/SalesRoute";
 import { CosechaRoute }       from "../components/CosechaRoute";
 import IngresoForm            from "../pages/IngresoForm";
 import IngresoList            from "../pages/IngresoList";
+import Ventas                 from "../pages/Ventas"; 
+
+
 
 
 export default function AppRouter() {
@@ -57,11 +60,13 @@ export default function AppRouter() {
                 <Route path="clientes/nuevo" element={<ClientForm />} />
               </Route>
 
-              {/* Presupuestos */}
+              {/* Contable */}
               <Route path="presupuestos" element={<Presupuestos />} />
               <Route element={<SalesRoute />}>
                 <Route path="presupuestos/nuevo"   element={<PresupuestoItemForm />} />
                 <Route path="presupuestos/:itemId" element={<PresupuestoItemForm />} />
+                <Route path="ventas" element={<Ventas />} />
+
               </Route>
               <Route path="presupuestos/:itemId/subitems" element={<Subitems />} />
               <Route element={<SalesRoute />}>

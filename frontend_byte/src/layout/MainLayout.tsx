@@ -23,7 +23,7 @@ export default function MainLayout({ children }: { children?: ReactNode }) {
     { to: "/homepage/dashboard",      label: "Dashboard",    icon: Squares2X2Icon, roles:["administrador"]},
     { to: "/homepage/presupuestos",   label: "Presupuestos", icon: ChartBarIcon, roles:["administrador", "contable"]},
     { to: "/homepage/ingresos",       label: "Ingresos",     icon: BanknotesIcon },
-    { to: "/homepage/ventas",         label: "Ventas",       icon: ShoppingCartIcon },
+    { to: "/homepage/ventas",         label: "Ventas",       icon: ShoppingCartIcon, roles:["administrador", "contable"] },
     { to: "/homepage/gastos",         label: "Gastos",       icon: FolderIcon },
     { to: "/homepage/clientes",       label: "Clientes",     icon: UsersIcon, roles: ["administrador"] },
     { to: "/homepage/usuarios",       label: "Usuarios",     icon: UsersIcon, roles: ["administrador"] },
