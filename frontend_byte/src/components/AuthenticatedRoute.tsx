@@ -16,16 +16,15 @@ export function AuthenticatedRoute({ children }: Props) {
   const { user, ready } = useAuth();
   const location = useLocation();
 
-  // Mientras restauramos la sesión, no renderizamos nada
   if (!ready) {
-    return null; // o un <Spinner />
+    return null; 
   }
 
-  // Si no hay usuario, vamos al login
+ 
   if (!user) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
-  // Renderizamos children (o Outlet para rutas hijas)
+
   return children ? <>{children}</> : <Outlet />;
 }

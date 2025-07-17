@@ -1,5 +1,6 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask import request
 from db import db
 from models.venta import Venta
 from models.detalle_venta import DetalleVenta
@@ -10,6 +11,10 @@ from schemas.venta import (
     PagoVentaBaseSchema, PagoVentaCreateSchema, PagoVentaUpdateSchema
 )
 from decimal import Decimal
+from models.stock import Stock
+from models.cliente import Cliente
+
+
 
 blp = Blueprint("Ventas", "ventas", url_prefix="/api/ventas", description="Operaciones de ventas")
 
@@ -21,7 +26,22 @@ blp = Blueprint("Ventas", "ventas", url_prefix="/api/ventas", description="Opera
 class VentaList(MethodView):
     @blp.response(200, VentaBaseSchema(many=True))
     def get(self):
-        return Venta.query.all()
+        cliente_filter = request.args.get("cliente")
+        producto_filter = request.args.get("producto")
+
+        query = Venta.query
+
+        # JOIN cliente
+        query = query.join(Venta.cliente)
+
+        if cliente_filter:
+            query = query.filter(Venta.cliente.has(Cliente.nombre.ilike(f"%{cliente_filter}%")))
+
+        if producto_filter:
+            query = query.join(Venta.detalles).join(DetalleVenta.stock) \
+                        .filter(Stock.producto.ilike(f"%{producto_filter}%"))
+
+        return query.all()
 
     @blp.arguments(VentaCreateSchema)
     @blp.response(201, VentaBaseSchema)

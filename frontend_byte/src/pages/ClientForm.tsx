@@ -1,6 +1,7 @@
 // src/pages/ClientForm.tsx
 import { useState, useEffect, type FormEvent } from "react";
 import { useNavigate, useParams }        from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Swal                                from "sweetalert2";
 import type { Cliente }                    from "../services/clients";
 import { getClient, createClient, updateClient } from "../services/clients";
@@ -12,7 +13,8 @@ export default function ClientForm() {
   const { clientId } = params as RouteParams;
   const isEdit    = Boolean(clientId);
   const navigate  = useNavigate();
-
+  const location = useLocation();
+  const fromVentas = location.state?.fromVentas;
   const [nombre, setNombre]       = useState("");
   const [email, setEmail]         = useState("");
   const [telefono, setTelefono]   = useState("");
@@ -45,7 +47,11 @@ export default function ClientForm() {
         await createClient({ nombre, email, telefono, direccion });
         await Swal.fire("¡Hecho!", "Cliente creado correctamente.", "success");
       }
-      navigate("/homepage/clientes");
+      if (fromVentas) {
+        navigate("/homepage/ventas");
+      } else {
+        navigate("/homepage/clientes");
+      }
     } catch (err: any) {
       const msg = err.response?.data?.mensaje || "Error al guardar cliente";
       setError(msg);

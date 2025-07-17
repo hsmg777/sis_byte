@@ -1,6 +1,6 @@
 # app.py
 
-from flask import Flask
+from flask import Flask, app
 from flask_cors import CORS
 from db import db, migrate
 from flask_jwt_extended import JWTManager
@@ -79,8 +79,9 @@ def create_app():
     api.register_blueprint(VentasBluePrint)
 
 
-
-
+    from seed import register_commands
+    register_commands(app)
+    
     return app
 
 if __name__ == "__main__":

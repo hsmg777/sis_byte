@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { listClients } from "../services/clients";
 import { listStock } from "../services/stock";
 import { createVenta } from "../services/ventas";
@@ -9,15 +10,17 @@ import type { DetalleVentaCreate } from "../services/ventas";
 import Swal from 'sweetalert2';
 
 
+
 export default function Ventas() {
+  const navigate = useNavigate();
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [productos, setProductos] = useState<Stock[]>([]);
   const [clienteSeleccionado, setClienteSeleccionado] = useState<number | null>(null);
   const [detalleVenta, setDetalleVenta] = useState<DetalleVentaCreate[]>([]);
-
   const [mostrarModal, setMostrarModal] = useState(false);
   const [formaPago, setFormaPago] = useState("");
-  const [nroDocumento, setNroDocumento] = useState("");
+  const [nroComprobante, setNroComprobante] = useState("");
+  const [nroFactura, setNroFactura] = useState("");
   const [abono, setAbono] = useState(0);
   const [comentarios, setComentarios] = useState("");
 
@@ -25,8 +28,7 @@ export default function Ventas() {
     listClients().then(res => setClientes(res.data));
     listStock().then(res => setProductos(res.data));
   }, []);
-
-
+    
   const valorTotal = detalleVenta.reduce((acc, item) => acc + parseFloat(item.kilos) * parseFloat(item.precio), 0);
   const saldo = valorTotal - abono;
 
@@ -103,7 +105,7 @@ export default function Ventas() {
       id_cliente: clienteSeleccionado!,
       fecha: new Date().toISOString().split("T")[0],
       forma_pago: formaPago,
-      numero_documento: nroDocumento,
+      numero_documento: nroFactura,
       comentarios,
       detalles: detalleVenta,
     };
@@ -132,7 +134,7 @@ export default function Ventas() {
         await addPagoToVenta(nuevaVenta.id_venta, {
           fecha_pago: data.fecha,
           monto: abono,
-          nro_documento: data.numero_documento,
+          nro_documento: nroComprobante,
           observaciones: comentarios || "Pago inicial",
         });
       }
@@ -147,7 +149,8 @@ export default function Ventas() {
       setMostrarModal(false);
       setClienteSeleccionado(null);
       setFormaPago("");
-      setNroDocumento("");
+      setNroComprobante("");
+      setNroFactura("");
       setAbono(0);
       setComentarios("");
       const nuevosProductos = await listStock();
@@ -162,24 +165,32 @@ export default function Ventas() {
     }
   };
 
-
-
-
   return (
     <div className="p-6 grid grid-cols-4 gap-6">
       <div className="col-span-3">
         <h2 className="text-xl font-semibold mb-2">Cliente</h2>
-        <select
-          className="border rounded px-2 py-1 w-full"
-          onChange={e => setClienteSeleccionado(Number(e.target.value))}
-          value={clienteSeleccionado || ""}
-        >
-          <option value="">Selecciona un cliente</option>
-          {clientes.map(cli => (
-            <option key={cli.id_cliente} value={cli.id_cliente}>{cli.nombre}</option>
-          ))}
-        </select>
-
+        <div className="flex gap-2 items-center">
+          <select
+            className="border rounded px-2 py-1 w-full"
+            onChange={e => setClienteSeleccionado(Number(e.target.value))}
+            value={clienteSeleccionado || ""}
+          >
+            <option value="">Selecciona un cliente</option>
+            {[...clientes]
+              .sort((a, b) => a.nombre.localeCompare(b.nombre))
+              .map(cli => (
+                <option key={cli.id_cliente} value={cli.id_cliente}>
+                  {cli.nombre}
+                </option>
+            ))}
+          </select>
+          <button
+            className="bg-purple-900 text-white px-3 py-1 rounded text-sm"
+            onClick={() => navigate("/homepage/clientes/nuevo", { state: { fromVentas: true } })}
+          >
+            +
+          </button>
+        </div>
         <h2 className="text-xl font-semibold mt-4 mb-2">Productos seleccionados</h2>
         <table className="w-full text-sm text-left text-gray-300 bg-slate-800 rounded-md shadow overflow-hidden">
           <thead className="text-xs uppercase bg-slate-700 text-white">
@@ -253,13 +264,22 @@ export default function Ventas() {
                 <option value="efectivo">Efectivo</option>
                 <option value="transferencia">Transferencia</option>
               </select>
-              <p>Nro. Documento:</p>
+              <p>Nro. Factura (venta):</p>
               <input
                 type="text"
                 className="w-full border px-2 py-1"
-                value={nroDocumento}
-                onChange={e => setNroDocumento(e.target.value)}
+                value={nroFactura}
+                onChange={e => setNroFactura(e.target.value)}
               />
+
+              <p>Comprobante de pago:</p>
+              <input
+                type="text"
+                className="w-full border px-2 py-1"
+                value={nroComprobante}
+                onChange={e => setNroComprobante(e.target.value)}
+              />
+
               <p>Abono:</p>
               <input
                 type="number"

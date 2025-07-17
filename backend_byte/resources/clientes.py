@@ -50,7 +50,7 @@ class ClientesList(MethodView):
 
     @blp.doc(security=[{"BearerAuth": []}])
     @jwt_required()
-    @roles_required("administrador")
+    @roles_required("administrador", "contable")
     @blp.arguments(ClienteCreateSchema)
     @blp.response(201, ClienteBaseSchema)
     def post(self, new_data):

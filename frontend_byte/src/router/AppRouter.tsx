@@ -24,6 +24,7 @@ import { CosechaRoute }       from "../components/CosechaRoute";
 import IngresoForm            from "../pages/IngresoForm";
 import IngresoList            from "../pages/IngresoList";
 import Ventas                 from "../pages/Ventas"; 
+import Ingresos              from "../pages/Ingresos";
 
 
 
@@ -51,45 +52,41 @@ export default function AppRouter() {
                 <Route path="usuarios"         element={<Users />} />
                 <Route path="usuarios/nuevo"   element={<UserForm />} />
                 <Route path="usuarios/:userId" element={<UserForm />} />
-              </Route>
-
-              {/* Clientes */}
-              <Route path="clientes" element={<Clients />} />
-              <Route path="clientes/:clientId" element={<ClientForm />} />
-              <Route element={<AdminRoute />}>
-                <Route path="clientes/nuevo" element={<ClientForm />} />
-              </Route>
+              </Route>             
 
               {/* Contable */}
               <Route path="presupuestos" element={<Presupuestos />} />
-              <Route element={<SalesRoute />}>
-                <Route path="presupuestos/nuevo"   element={<PresupuestoItemForm />} />
-                <Route path="presupuestos/:itemId" element={<PresupuestoItemForm />} />
-                <Route path="ventas" element={<Ventas />} />
+                <Route element={<SalesRoute />}>
+                  <Route path="presupuestos/nuevo"   element={<PresupuestoItemForm />} />
+                  <Route path="presupuestos/:itemId" element={<PresupuestoItemForm />} />
+                  <Route path="ventas" element={<Ventas />} />
+                  <Route path="ingresos" element={<Ingresos />} />
+    
+                  {/* Clientes */}
+                  <Route path="clientes" element={<Clients />} />
+                  <Route path="clientes/:clientId" element={<ClientForm />} />
+                  <Route path="clientes/nuevo" element={<ClientForm />} />
+
+                  {/* Presupuestos */}
+                  <Route path="presupuestos/:itemId/subitems/nuevo" element={<SubitemForm />} />
+                  <Route path="presupuestos/:itemId/subitems/:subId" element={<SubitemForm />} />
+                  <Route path="presupuestos/:itemId/subitems" element={<Subitems />} />
+
+                </Route>
+
+                 {/* Stock*/}
+                <Route path="stock" element={<Stock />} />
+                
+                <Route element={<CosechaRoute />}>
+              
+                  <Route path="stock/nuevo"        element={<StockForm />} />
+                  <Route path="stock/:stockId"     element={<StockForm />} />
+                  <Route path="stock/:stockId/ingresos" element={<IngresoList />} />
+                  <Route path="stock/:stockId/ingresos/nuevo" element={<IngresoForm />} />
+
+                </Route>
 
               </Route>
-              <Route path="presupuestos/:itemId/subitems" element={<Subitems />} />
-              <Route element={<SalesRoute />}>
-                <Route
-                  path="presupuestos/:itemId/subitems/nuevo"
-                  element={<SubitemForm />}
-                />
-                <Route
-                  path="presupuestos/:itemId/subitems/:subId"
-                  element={<SubitemForm />}
-                />
-              </Route>
-
-              {/* Stock / Cosecha */}
-              <Route path="stock" element={<Stock />} />
-              <Route element={<CosechaRoute />}>
-                <Route path="stock/nuevo"        element={<StockForm />} />
-                <Route path="stock/:stockId"     element={<StockForm />} />
-                <Route path="stock/:stockId/ingresos" element={<IngresoList />} />
-                <Route path="stock/:stockId/ingresos/nuevo" element={<IngresoForm />} />
-              </Route>
-
-            </Route>
           </Route>
 
           {/* No autorizado y 404 */}

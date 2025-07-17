@@ -17,7 +17,12 @@ export interface Venta {
   comentarios?: string;
   detalles?: DetalleVenta[];
   pagos?: PagoVenta[];
+  cliente?: { 
+    id_cliente: number;
+    nombre: string;
+  };
 }
+
 
 export interface VentaCreate {
   id_cliente: number;
@@ -61,13 +66,21 @@ export interface PagoVentaCreate {
   observaciones?: string;
 }
 
+export interface VentaFilters {
+  cliente?: string;   
+  producto?: string;  
+}
+
 // -----------------------------
 // Funciones API REST
 // -----------------------------
 
 // 🧾 Ventas
-export function listVentas() {
-  return api.get<Venta[]>("/ventas");
+export function listVentas(filters: VentaFilters = {}) {
+  const cleanFilters = Object.fromEntries(
+    Object.entries(filters).filter(([_, v]) => v !== "")
+  );
+  return api.get<Venta[]>("/ventas", { params: cleanFilters });
 }
 
 export function getVenta(id_venta: number) {
@@ -119,3 +132,5 @@ export function updatePago(id_pago: number, data: Partial<PagoVenta>) {
 export function deletePago(id_pago: number) {
   return api.delete<void>(`/ventas/pagos/${id_pago}`);
 }
+
+

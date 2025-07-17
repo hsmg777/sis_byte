@@ -1,4 +1,5 @@
 from marshmallow import Schema, fields
+from schemas.cliente import ClienteBaseSchema
 
 # === DETALLE VENTA ===
 class DetalleVentaBaseSchema(Schema):
@@ -54,8 +55,8 @@ class VentaBaseSchema(Schema):
     comentarios = fields.Str()
     detalles = fields.List(fields.Nested(DetalleVentaBaseSchema))
     pagos = fields.List(fields.Nested(PagoVentaBaseSchema))
+    cliente = fields.Nested(ClienteBaseSchema, allow_none=False, default={})
 
-# ✅ Ya sin abono
 class VentaCreateSchema(Schema):
     id_cliente = fields.Int(required=True)
     fecha = fields.Date()

@@ -18,5 +18,5 @@ class Venta(db.Model):
 
     detalles = relationship('DetalleVenta', backref='venta', cascade="all, delete-orphan")
     pagos = relationship('PagoVenta', backref='venta', cascade="all, delete-orphan")
-
+    cliente = db.relationship('Cliente', backref='ventas')
 
